@@ -10,7 +10,6 @@ include(FetchContent)
 FetchContent_Declare(cpr
     GIT_REPOSITORY https://github.com/libcpr/cpr.git
     GIT_TAG 1.10.5)   # pin a version so builds are reproducible
-set(CPR_USE_SYSTEM_CURL ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(cpr)
 
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz)

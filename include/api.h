@@ -1,6 +1,12 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
-int getAkari(int day, std::string& code);
+struct AkariResult {
+	int width, height;
+	std::string code;
+};
 
+int getAkari(int day, AkariResult& akari);
+std::ostream& operator<<(std::ostream& os, const AkariResult& akari);
