@@ -2,5 +2,5 @@
 
 #include <string>
 
-int get(std::string link, std::string& response);
+int getAkari(int day, std::string& code);
 

@@ -11,11 +11,11 @@ int main(int argc, char* argv[]) {
 
 	std::string response;
 	int code = get("https://dailyakari.com/archivepuzzle?number=550", response);
-	if (code) {
-		std::cerr << "die" << code << std::endl;
-		return 1;
-	}
 	std::cout << response << std::endl;
+	if (code != 200) {
+		std::cout << "Failed to fetch: " << code << std::endl;
+		return -1;
+	}
 
 	return 0;
 }
