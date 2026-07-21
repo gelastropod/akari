@@ -1,7 +1,7 @@
 #include <cassert>
 #include <iostream>
 
-#include "api.h"
+#include "akari.h"
 
 int main(int argc, char* argv[]) {
 	assert(argc == 2);
@@ -9,13 +9,21 @@ int main(int argc, char* argv[]) {
 
 	std::cout << "========== Processing day: " << day << " ==========\n" << std::endl;
 
-	AkariResult akari;
-	int code = getAkari(day, akari);
+	AkariResult akariResult;
+	int code = getAkari(day, akariResult);
 	if (code != 200) {
 		std::cout << "Failed to fetch: " << code << std::endl;
 		return -1;
 	}
-	std::cout << "Akari result: " << akari << std::endl;
+	std::cout << "Akari result: " << akariResult << std::endl;
+
+	Akari akari;
+	code = loadAkari(akariResult, akari);
+	if (code) {
+		std::cout << "Failed to read akari" << std::endl;
+		return -1;
+	}
+	std::cout << "Akari: " << akari << std::endl;
 
 	return 0;
 }

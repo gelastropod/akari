@@ -19,6 +19,7 @@ FetchContent_MakeAvailable(json)
 add_executable(main
     src/main.cpp
     src/api.cpp
+	src/akari.cpp
 )
 
 target_include_directories(main PRIVATE include)
