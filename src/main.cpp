@@ -1,8 +1,9 @@
 #include <cassert>
+#include <cstdlib>
+#include <fstream>
 #include <iostream>
 
-#include "akari.h"
-#include "cnf.h"
+#include "akaricnf.h"
 
 int main(int argc, char* argv[]) {
 	assert(argc == 2);
@@ -26,15 +27,45 @@ int main(int argc, char* argv[]) {
 	}
 	std::cout << "Akari: " << akari << std::endl;
 
+//	akari.w = 2;
+//	akari.h = 2;
+//	akari.board = {
+//		{1, 0},
+//		{0, 0}
+//	};
+
+	std::ofstream cnfFile("int.cnf");
 	CNF cnf;
-	int a = cnf.addInput();
-	int b = cnf.addInput();
-	int c = cnf.addInput();
-	int d = cnf.addInput();
-	int e = cnf.addIntermediate({a, c, d}, {0, 1, 1}, 0);
-	int f = cnf.addIntermediate({b, e, d}, {0, 0, 1}, 1);
-	cnf.addAssert(f, 1);
-	std::cout << cnf.exp() << std::endl;
+	std::vector<std::vector<int>> cnfIndices = calcAkari(cnf, akari);
+	cnfFile << cnf.exp() << std::endl;
+	cnfFile.close();
+
+	std::system("./kissat int.cnf 2>/dev/null | grep -E '^(s|v) ' | sed -E 's/^[sv] //' > int");
+	std::ifstream satFile("int");
+	std::string SAT;
+	satFile >> SAT;
+	if (SAT == "UNSATISFIABLE") {
+		std::cout << "Unsolvable akari!" << std::endl;
+		return -1;
+	}
+
+	std::vector<bool> satisfiableValues(cnf.numNodes, 0);
+	for (int i = 0; i < cnf.numNodes; i++) {
+		int v;
+		satFile >> v;
+		satisfiableValues[i] = v > 0;
+	}
+
+	for (int i = 0; i < akari.h; i++) {
+		for (int j = 0; j < akari.w; j++) {
+			if (akari.board[i][j] != 0) {
+				std::cout << "0";
+				continue;
+			}
+			std::cout << satisfiableValues[cnfIndices[i][j]];
+		}
+		std::cout << std::endl;
+	}
 
 	return 0;
 }

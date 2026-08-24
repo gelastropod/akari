@@ -3,4 +3,4 @@
 #include "akari.h"
 #include "cnf.h"
 
-void calcAkari(CNF& cnf, const Akari& akari);
+std::vector<std::vector<int>> calcAkari(CNF& cnf, const Akari& akari);

@@ -3,8 +3,8 @@
 std::string CNFClause::exp() {
 	std::string res = "";
 	for (int i = 0; i < nodes.size(); i++) {
-		if (!flipped[i]) res += std::to_string(nodes[i]);
-		else res += std::to_string(-nodes[i]);
+		if (!flipped[i]) res += std::to_string(nodes[i] + 1);
+		else res += std::to_string(-nodes[i] - 1);
 		res += " ";
 	}
 	return res;
@@ -56,7 +56,7 @@ int CNF::addIntermediate(std::vector<int> deps, std::vector<bool> flipped, int o
 }
 
 std::string CNF::exp() {
-	std::string res = "";
-	for (CNFClause& clause : clauses) res += clause.exp() + "\n";
+	std::string res = "p cnf " + std::to_string(numNodes) + " " + std::to_string(clauses.size()) + "\n";
+	for (CNFClause& clause : clauses) res += clause.exp() + "0 \n";
 	return res;
 }

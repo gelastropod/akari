@@ -21,6 +21,7 @@ add_executable(main
     src/api.cpp
 	src/akari.cpp
 	src/cnf.cpp
+	src/akaricnf.cpp
 )
 
 target_include_directories(main PRIVATE include)
